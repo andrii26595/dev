@@ -1,0 +1,118 @@
+def calculate_points(matches)
+  total_points = 0
+  matches.each do |match|
+    x, y = match.split(':').map(&:to_i)  # Розділяємо рахунки нашої команди і суперників
+    if x > y
+      total_points += 3  # При перемозі отримуємо 3 очки
+    elsif x == y
+      total_points += 1  # При нічиї отримуємо 1 очко
+    end
+  end
+  total_points
+end
+
+# Приклад використання
+matches = ["3:1", "2:2", "0:1", "4:0", "1:1", "3:2", "2:1", "1:0", "0:2", "4:4"]
+puts calculate_points(matches)  # Виведе загальну кількість очок нашої команди
+------------------------------------------------------------------------------------------------
+def split_into_pairs(string)
+  pairs = string.chars.each_slice(2).map(&:join)  # Розбиваємо рядок на пари
+  pairs[-1] += '_' if string.length.odd?
+  pairs
+end
+----------------------------------------------------------------------------
+def move_zeros(arr)
+  non_zeros = arr.reject { |x| x == 0 }  # Відфільтруємо всі ненульові елементи
+  zeros = arr.select { |x| x == 0 }  # Відфільтруємо всі нулі
+  non_zeros + zeros  # Об'єднаємо ненульові елементи з нулями
+end
+---------------------------------------------------
+def transform_string(input_string)
+  result = []
+  input_string.split.each do |word|
+    transformed_word = ""
+    word.chars.each_with_index do |char, i|
+      if i.even?
+        transformed_word += char.upcase
+      else
+        transformed_word += char.downcase
+      end
+    end
+    result << transformed_word
+  end
+  result.join(" ")
+end
+
+# Приклади використання
+puts transform_string("String")  # Вивід: "StRiNg"
+puts transform_string("Weird string case")  # Вивід: "WeIrD StRiNg CaSe"
+---------------------------------------------------------------------------
+module Validation
+  def self.match(pattern, text)
+    !!text.match(pattern)
+  end
+
+  def self.dateInRange(from, to, date)
+    from <= date && date <= to
+  end
+end
+
+class Student
+  attr_accessor :name, :surname, :birthdate, :student_id
+
+  def initialize(name, surname, birthdate, student_id)
+    @name = name
+    @surname = surname
+    @birthdate = birthdate
+    @student_id = student_id
+    validate
+  end
+
+  def validate
+    raise ArgumentError, "Invalid name" unless Validation.match(/^[A-Za-z]+$/, @name)
+    raise ArgumentError, "Invalid surname" unless Validation.match(/^[A-Za-z]+$/, @surname)
+    raise ArgumentError, "Invalid birthdate" unless @birthdate.is_a?(Date)
+    raise ArgumentError, "Invalid student ID" unless Validation.match(/^\d{8}$/, @student_id)
+  end
+end
+
+class Group
+  attr_accessor :name, :students
+
+  def initialize(name)
+    @name = name
+    @students = []
+  end
+
+  def add_student(student)
+    @students << student
+  end
+
+  def sort_students
+    @students.sort_by! { |student| [student.surname, student.name] }
+  end
+end
+
+# Приклади використання
+group1 = Group.new("Group 1")
+group2 = Group.new("Group 2")
+
+student1 = Student.new("John", "Doe", Date.new(1995, 7, 15), "12345678")
+student2 = Student.new("Jane", "Smith", Date.new(1994, 9, 20), "87654321")
+student3 = Student.new("Alex", "Johnson", "1990-05-10", "99999999")  # Неправильний формат дати
+student4 = Student.new("Emily", "Brown", Date.new(1993, 3, 25), "77777777")
+student5 = Student.new("Michael", "Davis", Date.new(1992, 11, 5), "55555555")
+
+group1.add_student(student1)
+group1.add_student(student2)
+group1.add_student(student3)  # Помилка валідації
+group2.add_student(student4)
+group2.add_student(student5)
+
+group1.sort_students
+group2.sort_students
+
+puts "Students in Group 1:"
+group1.students.each { |student| puts "#{student.surname}, #{student.name}" }
+puts "\nStudents in Group 2:"
+group2.students.each { |student| puts "#{student.surname}, #{student.name}" }
