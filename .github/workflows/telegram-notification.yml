@@ -23,7 +23,7 @@ jobs:
       run: echo "::set-output name=time::$(date +'%Y-%m-%d %H:%M:%S %Z')"
 
     - name: Send custom message
-      uses: appleboy/telegram-action@v0.2.0
+      uses: appleboy/telegram-action@v0.1.0
       with:
         to: ${{ secrets.TELEGRAM_CHANNEL_ID }}
         token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
