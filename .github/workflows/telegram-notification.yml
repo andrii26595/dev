@@ -8,22 +8,22 @@ on:
 
 jobs:
   notifyTelegram:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     steps:
     - name: Checkout repo
       uses: actions/checkout@v2
 
-    - name: Set up Node.js
+    - name: Use Node.js 20
       uses: actions/setup-node@v3
       with:
-        node-version: '16.x'
+        node-version: '20'
 
     - name: Get current time
       id: time
       run: echo "::set-output name=time::$(date +'%Y-%m-%d %H:%M:%S %Z')"
 
-    - name: send custom message
-      uses: appleboy/telegram-action@master
+    - name: Send custom message
+      uses: appleboy/telegram-action@v0.2.0
       with:
         to: ${{ secrets.TELEGRAM_TO }}
         token: ${{ secrets.TELEGRAM_TOKEN }}
