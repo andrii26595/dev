@@ -25,8 +25,8 @@ jobs:
     - name: Send custom message
       uses: appleboy/telegram-action@v0.2.0
       with:
-        to: ${{ secrets.TELEGRAM_TO }}
-        token: ${{ secrets.TELEGRAM_TOKEN }}
+        to: ${{ secrets.TELEGRAM_CHANNEL_ID }}
+        token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
         message: |
           The ${{ github.event_name }} event triggered the final step.
           This event is a ${{ github.event_name }} by ${{ github.actor }}.
